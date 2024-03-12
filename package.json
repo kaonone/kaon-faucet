@@ -1,5 +1,5 @@
 {
-  "name": "faucet-evm-template",
+  "name": "simple-evm-faucet",
   "version": "0.1.0",
   "private": false,
   "scripts": {
