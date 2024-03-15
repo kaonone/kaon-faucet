@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "code-solana-checker": "1.0.0",
     "@hcaptcha/react-hcaptcha": "^1.4.4",
     "@next/font": "13.1.1",
     "@tailwindcss/forms": "^0.5.3",
