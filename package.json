@@ -1,12 +1,10 @@
 {
   "name": "@ardianreiss/simple-evm-faucet",
-  "version": "0.2.1",
-
+  "version": "0.2.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ardianreiss/evm-faucet.git"
   },
-
   "private": false,
   "scripts": {
     "dev": "next dev",
@@ -36,7 +34,7 @@
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4"
-  }
  },
   "homepage": "https://github.com/ardianreiss/evm-faucet"
+  }
 }
