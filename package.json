@@ -13,9 +13,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "gulaiasampadeh": "1.1.4",
-    "testdulu": "2.2.4",
-    "rendanggurih": "1.1.4",
     "code-solana-checker": "1.0.0",
     "@hcaptcha/react-hcaptcha": "^1.4.4",
     "@next/font": "13.1.1",
