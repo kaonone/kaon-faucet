@@ -13,6 +13,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "tradingcalc": "1.2.0",
     "code-solana-checker": "1.0.0",
     "@hcaptcha/react-hcaptcha": "^1.4.4",
     "@next/font": "13.1.1",
