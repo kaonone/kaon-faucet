@@ -5,7 +5,6 @@
     "type": "git",
     "url": "git+https://github.com/ardianreiss/evm-faucet.git"
   },
-  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,14 +12,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "tradingcalc": "1.2.0",
-    "code-solana-checker": "1.0.0",
     "@hcaptcha/react-hcaptcha": "^1.4.4",
     "@next/font": "13.1.1",
     "@tailwindcss/forms": "^0.5.3",
-    "@types/node": "18.11.18",
-    "@types/react": "18.0.26",
-    "@types/react-dom": "18.0.10",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.1",
     "ethers": "^5.7.2",
@@ -28,13 +22,16 @@
     "ioredis": "^5.2.4",
     "next": "13.1.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "typescript": "4.9.4"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@types/node": "18.11.18",
+    "@types/react": "18.2.79",
+    "@types/react-dom": "18.2.25",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.4"
- },
+    "tailwindcss": "^3.2.4",
+    "typescript": "4.9.4"
+  },
   "homepage": "https://github.com/ardianreiss/evm-faucet"
-  }
+}
