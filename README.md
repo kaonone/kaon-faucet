@@ -25,7 +25,7 @@ COOLDOWN_HOURS=2
 VALUE=1230000000000000
 NEXT_PUBLIC_HCAPTCHA_SITE_KEY=00000000-0000-0000-0000-000000000000
 HCAPTCHA_SECRET=0x0000000000000000000000000000000000000000
-REDIS_URI=redis://default:key@url.com:6379
+REDIS_URL=redis://default:key@url.com:6379
 ```
 
 ![](https://user-images.githubusercontent.com/19412160/212416161-e334625f-1a9c-41e2-9c4b-4c878545f45d.png)
@@ -44,7 +44,7 @@ NEXT_PUBLIC_HCAPTCHA_SITE_KEY: Create hCaptcha account. Also known as `Sitekey` 
 
 HCAPTCHA_SECRET: Create hCpatcha account. Also known as `Secret Key` https://dashboard.hcaptcha.com/settings
 
-REDIS_URI: Redis is an in-memory key-value database. https://redis.com/redis-enterprise-cloud/overview/
+REDIS_URL: Redis is an in-memory key-value database. https://redis.com/redis-enterprise-cloud/overview/
 
 
 ## Getting Started Locally
