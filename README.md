@@ -1,20 +1,6 @@
-# Faucet EVM Template
+# Kaon Testnet Faucet
 
-<i> Testnet faucet template using Nextjs, Tailwind, hCaptcha and Redis </i>
-
-## One click deploy
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F0xDeploy%2Ffaucet-evm-template)
-
-## Demo
-
-https://0xdeploy-faucet-demo.vercel.app/
-
-## Video Tutorial
-
-[![](https://user-images.githubusercontent.com/19412160/212460373-16832943-6626-409c-aba9-15227937748d.png)](https://youtu.be/PcFfN_jrc_w)
-
-https://youtu.be/PcFfN_jrc_w
+<i> Kaon Testnet faucet using Nextjs, MUI, hCaptcha and Redis </i>
 
 ## Environment Variables
 
@@ -32,20 +18,19 @@ REDIS_URL=redis://default:key@url.com:6379
 
 ## Definitions
 
-PRIVATE_KEY: The private key of the wallet issuing funds. https://metamask.zendesk.com/hc/en-us/articles/360015289632
+PRIVATE_KEY: The private key of the wallet issuing funds. <https://metamask.zendesk.com/hc/en-us/articles/360015289632>
 
-RPC_URL: RPC url of the blockchain https://www.ankr.com/rpc/
+RPC_URL: RPC url of the blockchain <https://www.ankr.com/rpc/>
 
 COOLDOWN_HOURS: Amount of hours users must wait to recieve funds again
 
-VALUE: Value in smallest unit (ie: wei) https://eth-converter.com/
+VALUE: Value in smallest unit (ie: wei) <https://eth-converter.com/>
 
-NEXT_PUBLIC_HCAPTCHA_SITE_KEY: Create hCaptcha account. Also known as `Sitekey` https://dashboard.hcaptcha.com/sites
+NEXT_PUBLIC_HCAPTCHA_SITE_KEY: Create hCaptcha account. Also known as `Sitekey` <https://dashboard.hcaptcha.com/sites>
 
-HCAPTCHA_SECRET: Create hCpatcha account. Also known as `Secret Key` https://dashboard.hcaptcha.com/settings
+HCAPTCHA_SECRET: Create hCpatcha account. Also known as `Secret Key` <https://dashboard.hcaptcha.com/settings>
 
-REDIS_URL: Redis is an in-memory key-value database. https://redis.com/redis-enterprise-cloud/overview/
-
+REDIS_URL: Redis is an in-memory key-value database. <https://redis.com/redis-enterprise-cloud/overview/>
 
 ## Getting Started Locally
 
@@ -66,4 +51,3 @@ cp .env.local.example .env.local
 Modern browsers have strict CORS and CORB rules, so opening a file://URI that loads hCaptcha will not work
 
 The simplest way to use a tool such as [ngrok](https://ngrok.com/)
-
