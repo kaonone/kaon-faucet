@@ -96,8 +96,8 @@ export const theme = createTheme({
   },
   palette: {
     background: {
-      default: "rgba(248, 246, 243, 1)",
-      paper: "rgba(255, 255, 255, 1)",
+      default: "rgb(248, 246, 243)",
+      paper: "rgb(255, 255, 255)",
     },
   },
   components: {
@@ -113,6 +113,42 @@ export const theme = createTheme({
         variantMapping: {
           small: "span",
           tabLink: "span",
+        },
+      },
+    },
+    MuiSlider: {
+      styleOverrides: {
+        root: {
+          height: 2,
+          padding: "7px 0",
+        },
+        rail: {
+          backgroundColor: "rgb(153, 143, 135)",
+        },
+        track: {
+          zIndex: 1,
+          backgroundColor: "rgb(58, 58, 58)",
+          borderColor: "rgb(58, 58, 58)",
+        },
+        thumb: {
+          backgroundColor: "rgb(58, 58, 58)",
+          width: 8,
+          height: 8,
+          borderRadius: 1.5,
+          boxShadow: "0px 0px 0px 4px rgba(153, 143, 135, 1)",
+
+          "&::after": {
+            width: 24,
+            height: 24,
+          },
+
+          "&::before": {
+            boxShadow: "none",
+          },
+
+          "&:hover, &.Mui-focusVisible, &.Mui-active": {
+            boxShadow: "0px 0px 0px 5px rgba(153, 143, 135, 1)",
+          },
         },
       },
     },

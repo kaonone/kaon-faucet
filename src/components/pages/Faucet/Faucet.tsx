@@ -1,7 +1,7 @@
 "use client";
 import React, { FormEvent, useState } from "react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import { NoSsr } from "@mui/material";
+import { NoSsr, Slider, styled } from "@mui/material";
 
 import { receiveGas } from "../../../api/receiveGas";
 import SuccessModal from "../../SuccessModal";
@@ -9,6 +9,8 @@ import ErrorModal from "../../ErrorModal";
 import { PageCardContainer } from "../../layout/PageCardContainer";
 
 export function Faucet() {
+  const [size, setSize] = useState(500);
+
   const [isDisabled, setIsDisabled] = useState(true);
   const [hcaptchaToken, setHcaptchaToken] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -38,8 +40,13 @@ export function Faucet() {
 
   return (
     <PageCardContainer elevation={0}>
-      <h2>Testnet Faucet</h2>
-      <form onSubmit={handleSubmit}>
+      <FormRoot onSubmit={handleSubmit}>
+        <KaonSlider
+          value={size}
+          onChange={(_, value) => {
+            setSize(typeof value === "number" ? value : value[0]);
+          }}
+        />
         <input
           id="address"
           name="address"
@@ -56,9 +63,30 @@ export function Faucet() {
         <button disabled={isDisabled} type="submit">
           Request Funds
         </button>
-      </form>
+      </FormRoot>
       <SuccessModal message={successMessage} />
       <ErrorModal message={errorMessage} />
     </PageCardContainer>
+  );
+}
+
+const FormRoot = styled("form")({});
+
+function KaonSlider({
+  onChange,
+  value,
+}: {
+  value: number;
+  onChange: (event: Event, value: number | number[]) => void;
+}) {
+  return (
+    <Slider
+      value={value}
+      step={1}
+      min={1}
+      max={1000}
+      valueLabelDisplay="off"
+      onChange={onChange}
+    />
   );
 }
