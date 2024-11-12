@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import SuccessModal from "./SuccessModal";
 import ErrorModal from "./ErrorModal";
