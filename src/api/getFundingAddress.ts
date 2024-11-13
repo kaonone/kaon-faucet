@@ -1,5 +1,5 @@
 "use server";
-import wallet from "../utils/wallet";
+import { wallet } from "../utils/wallet";
 
 type Address = {
   address: string;

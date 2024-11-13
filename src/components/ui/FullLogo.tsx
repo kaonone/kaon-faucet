@@ -1,3 +1,4 @@
+"use client";
 import { SvgIcon as MuiSvgIcon, styled, SvgIconProps } from "@mui/material";
 
 export function FullLogo(props: SvgIconProps) {

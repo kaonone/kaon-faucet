@@ -1,4 +1,4 @@
-import wallet from "./wallet";
+import { wallet } from "./wallet";
 
 type TransferCoin = {
   success: boolean;
@@ -9,7 +9,9 @@ type TransferCoin = {
  * Transfer coin to address. This is native token ie ETH
  * @param {string} address - The address to transfer to
  */
-export default async function transferCoin(address: string): Promise<TransferCoin> {
+export default async function transferCoin(
+  address: string
+): Promise<TransferCoin> {
   try {
     const transaction = await wallet.sendTransaction({
       to: address,

@@ -14,6 +14,13 @@ export const theme = createTheme({
       xl: 1536,
     },
   },
+  palette: {
+    primary: { main: "#000000" },
+    background: {
+      default: "rgb(248, 246, 243)",
+      paper: "rgb(255, 255, 255)",
+    },
+  },
   typography: {
     h1: {
       fontFamily,
@@ -61,7 +68,7 @@ export const theme = createTheme({
       fontWeight: 400,
       lineHeight: "24px",
       letterSpacing: "0.72px",
-      textTransform: "none",
+      textTransform: "uppercase",
     },
     body1: {
       fontFamily,
@@ -94,12 +101,6 @@ export const theme = createTheme({
     caption: undefined,
     overline: undefined,
   },
-  palette: {
-    background: {
-      default: "rgb(248, 246, 243)",
-      paper: "rgb(255, 255, 255)",
-    },
-  },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
@@ -113,6 +114,27 @@ export const theme = createTheme({
         variantMapping: {
           small: "span",
           tabLink: "span",
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        sizeMedium: {
+          paddingTop: 7,
+          paddingBottom: 7,
+        },
+        contained: {
+          boxShadow: "none",
+
+          "&:hover, &:active, &.Mui-focusVisible, &.Mui-active": {
+            boxShadow: "none",
+            backgroundColor: "rgb(38, 38, 38)",
+          },
+        },
+        textSizeMedium: {
+          paddingTop: 0,
+          paddingBottom: 0,
+          letterSpacing: 0.3,
         },
       },
     },
@@ -146,7 +168,7 @@ export const theme = createTheme({
             boxShadow: "none",
           },
 
-          "&:hover, &.Mui-focusVisible, &.Mui-active": {
+          "&:hover, &:active, &.Mui-focusVisible, &.Mui-active": {
             boxShadow: "0px 0px 0px 5px rgba(153, 143, 135, 1)",
           },
         },
