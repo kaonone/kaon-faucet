@@ -3,23 +3,20 @@ import React from "react";
 import {
   Alert as MuiAlert,
   Button,
-  Card,
   CircularProgress,
-  Grid2 as Grid,
-  Input,
-  Typography,
   styled,
   SvgIcon,
 } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info"; // TODO: update
 import { useForm } from "@tanstack/react-form";
 
-import { canReceive } from "../../../api/canReceive";
-import { evmToKaonAddress } from "../../../api/evmToKaonAddress";
-import { kaonToEvmAddress } from "../../../api/kaonToEvmAddress";
-import { KaonSlider } from "../../ui/KaonSlider";
+import { canReceive } from "../../../../api/canReceive";
+import { evmToKaonAddress } from "../../../../api/evmToKaonAddress";
+import { kaonToEvmAddress } from "../../../../api/kaonToEvmAddress";
+import { KaonSlider } from "../../../ui/KaonSlider";
+import { InfoIcon } from "../../../icons/InfoIcon";
+import { AddressField } from "./AddressField";
 
-type FormData = {
+export type FormData = {
   amount: number;
   address: {
     type: "evm" | "kaon";
@@ -106,78 +103,11 @@ export function FaucetForm({
           </SliderBox>
         )}
       </form.Field>
+
       <form.Field name="address">
-        {(field) => {
-          const { value } = field.state;
-
-          if (!value) {
-            return (
-              <AddressCard variant="outlined">
-                <AddressCardButtonsHeader>
-                  <Typography variant="h4">Send to</Typography>
-                  <InfoIcon />
-                </AddressCardButtonsHeader>
-                <Grid container spacing={1} wrap="wrap">
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    onClick={() =>
-                      field.handleChange({ type: "evm", value: "" })
-                    }
-                  >
-                    Ethereum wallet address
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    onClick={() =>
-                      field.handleChange({ type: "kaon", value: "" })
-                    }
-                  >
-                    Native KAON wallet address
-                  </Button>
-                </Grid>
-              </AddressCard>
-            );
-          }
-
-          const { type } = value;
-          const title = `${type === "evm" ? "eth" : "kaon"} wallet address`;
-          const placeholder = type === "evm" ? "0x1f98..." : "arGj3m...";
-
-          return (
-            <>
-              <AddressCard variant="outlined">
-                <AddressCardInputHeader>
-                  <Typography variant="h4">{title}</Typography>
-                  <ChangeTypeButton
-                    variant="text"
-                    onClick={() => field.handleChange(null)}
-                  >
-                    Change
-                  </ChangeTypeButton>
-                </AddressCardInputHeader>
-
-                <AddressInput
-                  fullWidth
-                  disableUnderline
-                  placeholder={placeholder}
-                  value={value.value}
-                  onChange={(event) =>
-                    field.handleChange({ type, value: event.target.value })
-                  }
-                />
-              </AddressCard>
-              <InputInfoCard>
-                <InfoIcon />
-                <Typography variant="body1">
-                  Tokens will be sent on Kaon testnet
-                </Typography>
-              </InputInfoCard>
-            </>
-          );
-        }}
+        {(field) => <AddressField field={field} />}
       </form.Field>
+
       <form.Subscribe
         selector={({ canSubmit, isSubmitting, values: { address } }) => ({
           canSubmit,
@@ -201,6 +131,7 @@ export function FaucetForm({
           )
         }
       </form.Subscribe>
+
       <form.Subscribe
         selector={({ errorMap: { onSubmit } }) => ({
           submitError: onSubmit,
@@ -223,59 +154,6 @@ const FormRoot = styled("form")({});
 
 const SliderBox = styled("div")({
   marginBottom: 36,
-});
-
-const AddressCard = styled(Card)({
-  padding: "12px 15px 15px",
-  borderColor: "rgb(240, 236, 229)",
-});
-
-const AddressCardHeader = styled("div")({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  fontSize: 16,
-
-  "& svg": {
-    fontSize: 16,
-    color: "rgb(153, 143, 135)",
-  },
-});
-
-const AddressInput = styled(Input)({
-  "& .MuiInput-input": {
-    paddingBottom: 3,
-  },
-});
-
-const InputInfoCard = styled("div")({
-  marginTop: 10,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 6,
-  backgroundColor: "rgb(248, 246, 243)",
-  borderRadius: 4,
-  padding: "12px 16px",
-  minHeight: 75,
-
-  "& svg": {
-    fontSize: 24,
-    color: "rgba(153, 143, 135)",
-  },
-});
-
-const AddressCardButtonsHeader = styled(AddressCardHeader)({
-  marginBottom: 14,
-});
-
-const AddressCardInputHeader = styled(AddressCardHeader)({
-  marginBottom: 6,
-});
-
-const ChangeTypeButton = styled(Button)({
-  marginRight: -8,
-  color: "rgb(153, 143, 135)",
 });
 
 const SubmitButton = styled(Button)({

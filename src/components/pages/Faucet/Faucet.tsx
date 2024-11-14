@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 
 import { PageCardContainer } from "../../layout/PageCardContainer";
-import { FaucetForm, FaucetFormSubmitData } from "./FaucetForm";
+import { FaucetForm, FaucetFormSubmitData } from "./FaucetForm/FaucetForm";
 
 export function Faucet() {
   const [formData, setFormData] = useState<FaucetFormSubmitData | null>(null);
