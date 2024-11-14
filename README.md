@@ -8,7 +8,6 @@
 PRIVATE_KEY=0000000000000000000000000000000000000000000000000000000000000000
 RPC_URL=https://rpc.ankr.com/eth_goerli
 COOLDOWN_HOURS=2
-VALUE=1230000000000000
 NEXT_PUBLIC_HCAPTCHA_SITE_KEY=00000000-0000-0000-0000-000000000000
 HCAPTCHA_SECRET=0x0000000000000000000000000000000000000000
 REDIS_URL=redis://default:key@url.com:6379
@@ -23,8 +22,6 @@ PRIVATE_KEY: The private key of the wallet issuing funds. <https://metamask.zend
 RPC_URL: RPC url of the blockchain <https://www.ankr.com/rpc/>
 
 COOLDOWN_HOURS: Amount of hours users must wait to recieve funds again
-
-VALUE: Value in smallest unit (ie: wei) <https://eth-converter.com/>
 
 NEXT_PUBLIC_HCAPTCHA_SITE_KEY: Create hCaptcha account. Also known as `Sitekey` <https://dashboard.hcaptcha.com/sites>
 

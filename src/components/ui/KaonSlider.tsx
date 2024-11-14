@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import { Slider as MuiSlider, Typography, styled } from "@mui/material";
+
+import { formatNumber } from "../../utils/format/formatNumber";
 import { ShortLogo } from "./ShortLogo";
 
 type KaonSliderProps = {
@@ -22,7 +24,7 @@ export function KaonSlider({
     <Root>
       <TopBox>
         <ShortLogo fontSize="inherit" />
-        <Value>{formatValue(value)}</Value>
+        <Value>{formatNumber(value)}</Value>
       </TopBox>
       <Slider
         value={value}
@@ -33,8 +35,8 @@ export function KaonSlider({
         onChange={onChange}
       />
       <BottomBox>
-        <Typography variant="tabLink">{formatValue(min)} min</Typography>
-        <Typography variant="tabLink">{formatValue(max)} max</Typography>
+        <Typography variant="tabLink">{formatNumber(min)} min</Typography>
+        <Typography variant="tabLink">{formatNumber(max)} max</Typography>
       </BottomBox>
     </Root>
   );
@@ -67,12 +69,3 @@ const Value = styled("span")(({ theme }) => ({
   lineHeight: "0.72em",
   marginBottom: "-0.1em",
 }));
-
-const FORMAT_PRECISION = 0;
-
-function formatValue(value: number): string {
-  return value.toLocaleString("en-US", {
-    minimumFractionDigits: FORMAT_PRECISION,
-    maximumFractionDigits: FORMAT_PRECISION,
-  });
-}

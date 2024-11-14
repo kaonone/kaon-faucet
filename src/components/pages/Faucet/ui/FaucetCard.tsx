@@ -4,14 +4,15 @@ import { Card as MuiCard, Typography, styled } from "@mui/material";
 import { makeCssVars } from "../../../../utils/makeCssVars";
 
 type CardProps = {
-  title: string;
-  titleMargin: "small" | "medium";
+  title?: string;
+  titleMargin?: "small" | "medium";
   action?: React.ReactNode;
   children: React.ReactNode;
 };
 
 export function Card(props: CardProps) {
-  const { children, title, titleMargin, action } = props;
+  const { children, title, titleMargin = "medium", action } = props;
+  const renderHeader = !!title || !!action;
 
   return (
     <InternalCard
@@ -20,10 +21,12 @@ export function Card(props: CardProps) {
         "--faucet-card_header-m": titleMargin === "small" ? "6px" : "14px",
       })}
     >
-      <CardHeader>
-        <Typography variant="h4">{title}</Typography>
-        {action}
-      </CardHeader>
+      {renderHeader && (
+        <CardHeader>
+          {title && <Typography variant="h4">{title}</Typography>}
+          {action && <ActionBox>{action}</ActionBox>}
+        </CardHeader>
+      )}
       {children}
     </InternalCard>
   );
@@ -40,4 +43,10 @@ const CardHeader = styled("div")({
   justifyContent: "space-between",
   fontSize: 16,
   marginBottom: "var(--faucet-card_header-m)",
+});
+
+const ActionBox = styled("div")({
+  display: "flex",
+  justifyContent: "flex-end",
+  flexGrow: 1,
 });

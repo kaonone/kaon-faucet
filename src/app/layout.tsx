@@ -6,6 +6,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 
 import { AppLayout } from "../components/layout/AppLayout";
 import { theme } from "./theme";
+import { TanstackProvider } from "./providers";
 
 const fontFamily = Heebo({
   weight: "variable",
@@ -29,8 +30,10 @@ export default async function RootLayout({
       <body className={`${fontFamily.variable}`}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <AppLayout>{children}</AppLayout>
+            <TanstackProvider>
+              <CssBaseline />
+              <AppLayout>{children}</AppLayout>
+            </TanstackProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

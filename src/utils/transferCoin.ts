@@ -1,4 +1,5 @@
-import { wallet } from "./wallet";
+import { Transaction, parseEther } from "ethers";
+import { wallet, provider } from "./wallet";
 
 type TransferCoin = {
   success: boolean;
@@ -10,12 +11,13 @@ type TransferCoin = {
  * @param {string} address - The address to transfer to
  */
 export default async function transferCoin(
-  address: string
+  address: string,
+  amount: number
 ): Promise<TransferCoin> {
   try {
-    const transaction = await wallet.sendTransaction({
+    const transaction = await sendTransaction({
       to: address,
-      value: process.env.VALUE as string,
+      value: parseEther(amount.toString()),
     });
     return {
       success: true,
@@ -27,4 +29,17 @@ export default async function transferCoin(
       message: "Unable to Send Transaction",
     };
   }
+}
+
+// Necessary because the Kaon network uses non-standard tx hashes
+// and wallet.sendTransaction not working
+async function sendTransaction(tx: { to: string; value: bigint }) {
+  const pop = await wallet.populateTransaction(tx);
+  delete pop.from;
+  const txObj = Transaction.from(pop);
+  const hash = await provider._perform({
+    method: "broadcastTransaction",
+    signedTransaction: await wallet.signTransaction(txObj),
+  });
+  return { hash };
 }

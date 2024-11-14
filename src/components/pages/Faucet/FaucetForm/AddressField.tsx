@@ -80,6 +80,7 @@ export function AddressField(props: AddressFieldProps) {
         }
       >
         <AddressInput
+          autoFocus
           fullWidth
           disableUnderline
           placeholder={placeholder}

@@ -1,5 +1,5 @@
 "use server";
-import { isAddress } from "ethers";
+import { isAddress, resolveProperties } from "ethers";
 import { verify } from "hcaptcha";
 
 import { canReceive } from "./canReceive";
@@ -11,17 +11,22 @@ type Message = {
   error?: true;
 };
 
-type Params = { address: string; hcaptchaToken: string };
+type Params = {
+  address: string;
+  hCaptchaToken: string;
+  amount: number;
+};
 
 /*
  * Transfer coin to address. This is native token ie ETH
  * @param {string} address - The address to transfer to
- * @param {string} hcaptchaToken - The token from the hcaptcha
+ * @param {string} hCaptchaToken - The token from the hCaptcha
  * @returns {Message} - The message to display to the user, either error message or transaction hash
  */
 export async function receiveGas({
+  amount,
   address,
-  hcaptchaToken,
+  hCaptchaToken,
 }: Params): Promise<Message> {
   // if invalid address
   if (!isAddress(address)) return { message: "Invalid Address", error: true };
@@ -29,7 +34,7 @@ export async function receiveGas({
   // verify the captcha
   const verified = await verify(
     process.env.HCAPTCHA_SECRET as string,
-    hcaptchaToken
+    hCaptchaToken
   );
   // if invalid captcha, return 401
   if (!verified.success) return { message: "Invalid Captcha", error: true };
@@ -40,7 +45,7 @@ export async function receiveGas({
   if (!recieved.success) return { message: recieved.message, error: true };
 
   // transfer coin
-  const transfer = await transferCoin(address);
+  const transfer = await transferCoin(address, amount);
   // if transfer was unsuccessful
   if (!transfer.success) return { message: transfer.message, error: true };
 
