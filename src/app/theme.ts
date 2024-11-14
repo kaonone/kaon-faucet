@@ -25,7 +25,7 @@ export const theme = createTheme({
     h1: {
       fontFamily,
       fontSize: 36,
-      fontWeight: 500,
+      fontWeight: 600,
       lineHeight: "53px",
       letterSpacing: "0.27px",
       textTransform: "none",
@@ -33,7 +33,7 @@ export const theme = createTheme({
     h2: {
       fontFamily,
       fontSize: 16,
-      fontWeight: 500,
+      fontWeight: 600,
       lineHeight: "26px",
       letterSpacing: "0.20px",
       textTransform: "none",
@@ -49,7 +49,7 @@ export const theme = createTheme({
     h4: {
       fontFamily,
       fontSize: 12,
-      fontWeight: 500,
+      fontWeight: 600,
       lineHeight: "26px",
       letterSpacing: "0.27px",
       textTransform: "uppercase",
@@ -57,7 +57,7 @@ export const theme = createTheme({
     h5: {
       fontFamily,
       fontSize: 12,
-      fontWeight: 500,
+      fontWeight: 600,
       lineHeight: "26px",
       letterSpacing: "0.20px",
       textTransform: "none",

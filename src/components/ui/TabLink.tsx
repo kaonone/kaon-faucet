@@ -30,7 +30,7 @@ const ExternalTabLinkRoot = styled("a")(({ theme }) => ({
   gap: 8,
 
   "&:hover": {
-    color: "rgba(102, 101, 101, 1)",
+    color: "rgb(102, 101, 101)",
     textDecoration: "underline",
   },
 }));

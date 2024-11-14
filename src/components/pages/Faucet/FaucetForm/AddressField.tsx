@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Grid2 as Grid,
+  IconButton,
   Input,
   Typography,
   styled,
@@ -11,6 +12,8 @@ import { FieldApi } from "@tanstack/react-form";
 
 import { InfoIcon } from "../../../icons/InfoIcon";
 import { Card } from "../ui/FaucetCard";
+import { AddressInfoModal } from "./AddressInfoModal";
+
 import type { FormData } from "./FaucetForm";
 
 type AddressFieldProps = {
@@ -20,6 +23,7 @@ type AddressFieldProps = {
 export function AddressField(props: AddressFieldProps) {
   const { field } = props;
   const { value } = field.state;
+  const [infoOpened, setInfoOpened] = useState(false);
 
   if (!value) {
     return (
@@ -27,11 +31,16 @@ export function AddressField(props: AddressFieldProps) {
         title="Send to"
         titleMargin="medium"
         action={
-          <AddressesInfoBox>
-            <InfoIcon />
-          </AddressesInfoBox>
+          <InfoIconButton size="small" onClick={() => setInfoOpened(true)}>
+            <GreyInfoIcon fontSize="inherit" />
+          </InfoIconButton>
         }
       >
+        <AddressInfoModal
+          open={infoOpened}
+          onClose={() => setInfoOpened(false)}
+        />
+
         <Grid container spacing={1} wrap="wrap">
           <Button
             fullWidth
@@ -82,7 +91,7 @@ export function AddressField(props: AddressFieldProps) {
       </Card>
 
       <InputInfoCard>
-        <InfoIcon />
+        <GreyInfoIcon />
         <Typography variant="body1">
           Tokens will be sent on Kaon testnet
         </Typography>
@@ -90,11 +99,9 @@ export function AddressField(props: AddressFieldProps) {
     </>
   );
 }
-const AddressesInfoBox = styled("div")({
-  "& svg": {
-    fontSize: 16,
-    color: "rgb(153, 143, 135)",
-  },
+
+const InfoIconButton = styled(IconButton)({
+  fontSize: 16,
 });
 
 const ChangeTypeButton = styled(Button)({
@@ -118,9 +125,8 @@ const InputInfoCard = styled("div")({
   borderRadius: 4,
   padding: "12px 16px",
   minHeight: 75,
+});
 
-  "& svg": {
-    fontSize: 24,
-    color: "rgba(153, 143, 135)",
-  },
+const GreyInfoIcon = styled(InfoIcon)({
+  color: "rgba(153, 143, 135)",
 });
