@@ -120,8 +120,23 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         sizeMedium: {
-          paddingTop: 7,
-          paddingBottom: 7,
+          padding: "7px 18px",
+
+          "& .MuiButton-endIcon": {
+            marginLeft: 6,
+
+            "&>*:nth-of-type(1)": {
+              fontSize: 16,
+            },
+          },
+
+          "& .MuiButton-startIcon": {
+            marginRight: 6,
+
+            "&>*:nth-of-type(1)": {
+              fontSize: 16,
+            },
+          },
         },
         contained: {
           boxShadow: "none",

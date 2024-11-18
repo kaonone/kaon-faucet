@@ -15,6 +15,7 @@ import { kaonToEvmAddress } from "../../../../api/kaonToEvmAddress";
 import { KaonSlider } from "../../../ui/KaonSlider";
 import { InfoIcon } from "../../../icons/InfoIcon";
 import { AddressField } from "./AddressField";
+import { FaucetFormSubmitData } from "./types";
 
 export type FormData = {
   amount: number;
@@ -22,12 +23,6 @@ export type FormData = {
     type: "evm" | "kaon";
     value: string;
   } | null;
-};
-
-export type FaucetFormSubmitData = {
-  amount: number;
-  evmAddress: string;
-  kaonAddress: string;
 };
 
 const SLIDER_STEP = 1;
@@ -68,6 +63,7 @@ export function FaucetForm({
         evmAddress = evmConverted.evmAddress;
       }
 
+      onSubmit({ amount, evmAddress, kaonAddress });
       const canReceiveResponse = await canReceive(evmAddress);
 
       if (!canReceiveResponse.success) {

@@ -1,15 +1,20 @@
 "use server";
-import { isAddress, resolveProperties } from "ethers";
+import { isAddress } from "ethers";
 import { verify } from "hcaptcha";
 
 import { canReceive } from "./canReceive";
 import transferCoin from "../utils/transferCoin";
 import redis from "../utils/redis";
 
-type Message = {
-  message: string;
-  error?: true;
-};
+type Message =
+  | {
+      message: string;
+      error: true;
+    }
+  | {
+      txHash: string;
+      error?: false;
+    };
 
 type Params = {
   address: string;
@@ -53,5 +58,5 @@ export async function receiveGas({
   await redis.set(address.toLowerCase(), Math.floor(Date.now() / 1000));
 
   // transfer is successful
-  return { message: transfer.message };
+  return { txHash: transfer.txHash };
 }

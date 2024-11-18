@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { Button } from "@mui/material";
 
 import { PageCardContainer } from "../../layout/PageCardContainer";
-import { FaucetForm, FaucetFormSubmitData } from "./FaucetForm/FaucetForm";
+import { FaucetForm } from "./FaucetForm/FaucetForm";
+import { FaucetFormSubmitData } from "./FaucetForm/types";
 import { ConfirmReceivingModal } from "./ConfirmReceivingModal/ConfirmReceivingModal";
 
 export function Faucet() {

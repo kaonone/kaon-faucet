@@ -1,10 +1,15 @@
 import { Transaction, parseEther } from "ethers";
 import { wallet, provider } from "./wallet";
 
-type TransferCoin = {
-  success: boolean;
-  message: string;
-};
+type TransferCoin =
+  | {
+      success: false;
+      message: string;
+    }
+  | {
+      success: true;
+      txHash: string;
+    };
 
 /*
  * Transfer coin to address. This is native token ie ETH
@@ -21,7 +26,7 @@ export default async function transferCoin(
     });
     return {
       success: true,
-      message: transaction.hash,
+      txHash: transaction.hash,
     };
   } catch (error) {
     return {

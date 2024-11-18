@@ -14,7 +14,7 @@ type ModalProps = {
   children: React.ReactElement;
   open: boolean;
   title?: React.ReactNode;
-  helpHref?: string;
+  helpHref?: string; // TODO remove if unused
   onClose?: () => void;
 };
 
@@ -52,6 +52,8 @@ export function Modal(props: ModalProps) {
 }
 
 const InternalModal = styled(MuiModal)({
+  overflow: "auto",
+
   "& .MuiModal-backdrop": {
     backgroundColor: "rgba(248, 246, 243, 0.9)",
   },
@@ -72,10 +74,10 @@ const HelpLinkBox = styled("div")({
 });
 
 const ModalContent = styled(MuiCard)({
-  position: "absolute",
+  position: "relative",
   top: 186,
   left: "50%",
   transform: "translateX(-50%)",
-  width: 420,
+  width: `min(420px, 100vw)`,
   padding: "22px 20px",
 });
