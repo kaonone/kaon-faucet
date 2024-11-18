@@ -37,40 +37,45 @@ export function FaucetForm({
   const form = useForm<FormData>({
     defaultValues: { address: null, amount: 500 },
     async onSubmit({ formApi, value: { address, amount } }) {
-      if (!address || !address.value) {
-        return formApi.setErrorMap({ onSubmit: "Address field is required" });
-      }
-
-      let evmAddress: string;
-      let kaonAddress: string;
-      if (address.type === "evm") {
-        evmAddress = address.value;
-        const kaonConverted = await evmToKaonAddress({ evmAddress });
-
-        if (kaonConverted.error) {
-          return formApi.setErrorMap({ onSubmit: kaonConverted.message });
+      try {
+        if (!address || !address.value) {
+          return formApi.setErrorMap({ onSubmit: "Address field is required" });
         }
 
-        kaonAddress = kaonConverted.kaonAddress;
-      } else {
-        kaonAddress = address.value;
-        const evmConverted = await kaonToEvmAddress({ kaonAddress });
+        let evmAddress: string;
+        let kaonAddress: string;
+        if (address.type === "evm") {
+          evmAddress = address.value;
+          const kaonConverted = await evmToKaonAddress({ evmAddress });
 
-        if (evmConverted.error) {
-          return formApi.setErrorMap({ onSubmit: evmConverted.message });
+          if (kaonConverted.error) {
+            return formApi.setErrorMap({ onSubmit: kaonConverted.message });
+          }
+
+          kaonAddress = kaonConverted.kaonAddress;
+        } else {
+          kaonAddress = address.value;
+          const evmConverted = await kaonToEvmAddress({ kaonAddress });
+
+          if (evmConverted.error) {
+            return formApi.setErrorMap({ onSubmit: evmConverted.message });
+          }
+
+          evmAddress = evmConverted.evmAddress;
         }
 
-        evmAddress = evmConverted.evmAddress;
+        const canReceiveResponse = await canReceive(evmAddress);
+
+        if (!canReceiveResponse.success) {
+          return formApi.setErrorMap({ onSubmit: canReceiveResponse.message });
+        }
+
+        onSubmit({ amount, evmAddress, kaonAddress });
+      } catch (error) {
+        formApi.setErrorMap({
+          onSubmit: (error as any)?.message || String(error),
+        });
       }
-
-      onSubmit({ amount, evmAddress, kaonAddress });
-      const canReceiveResponse = await canReceive(evmAddress);
-
-      if (!canReceiveResponse.success) {
-        return formApi.setErrorMap({ onSubmit: canReceiveResponse.message });
-      }
-
-      onSubmit({ amount, evmAddress, kaonAddress });
     },
   });
 
