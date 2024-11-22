@@ -22,7 +22,7 @@ export async function kaonToEvmAddress({
   // TODO: maybe need to add address format validation
 
   try {
-    const evmAddress = await provider.send("gethexaddress", [kaonAddress]);
+    const evmAddress = await provider.send("kaon_gethexaddress", [kaonAddress]);
 
     return { evmAddress };
   } catch (error) {

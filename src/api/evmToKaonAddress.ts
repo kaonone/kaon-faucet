@@ -25,7 +25,7 @@ export async function evmToKaonAddress({
   // return { kaonAddress: "aws5EADN6j7sszZYjWBAZDThW1qpK1TH13" };
 
   try {
-    const kaonAddress = await provider.send("fromhexaddress", [evmAddress]);
+    const kaonAddress = await provider.send("kaon_fromhexaddress", [evmAddress]);
 
     return { kaonAddress };
   } catch (error) {
