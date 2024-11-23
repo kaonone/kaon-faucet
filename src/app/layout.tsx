@@ -15,9 +15,37 @@ const fontFamily = Heebo({
   variable: "--font-family",
 });
 
+const faucet_description = "Kaon is a Bitcoin and UTXO native blockchain with cross-chain composability. Our mission is to create a stronger fidelity of on-chain transfers of Bitcoin assets. The result is a decentralized consensus layer that not only offers the first cryptographically secure mirrored BTC, but is also bridge-less and oracle-less to make Bitcoin ecosystem interoperability secure, composable and scalable."
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://faucet.testnet.kaon.one/"),
   title: "Kaon Faucet",
-  // description: "TODO: description",
+  applicationName: "Kaon Faucet",
+  authors: [{ name: "Kaon Labs" }],
+  creator: "Kaon Labs",
+  publisher: "Kaon Labs",
+  generator: 'Next.js',
+  keywords: ["Kaon", "Testnet", "Faucet", "Blockchain", "Bitcoin", "EVM"],
+  formatDetection: {
+    telephone: false,
+  },
+  description: faucet_description,
+  openGraph: {
+    title: "Kaon Faucet",
+    description: faucet_description,
+    url: "https://kaon.one/",
+    siteName: "Kaon Faucet",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kaon Faucet",
+    description: faucet_description,
+    siteId: "935139646224371712",
+    creator: "@kaonlabs",
+    creatorId: "935139646224371712",
+  },
 };
 
 export default async function RootLayout({
