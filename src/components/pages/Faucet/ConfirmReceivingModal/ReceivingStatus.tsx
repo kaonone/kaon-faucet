@@ -15,7 +15,7 @@ import { RightTopArrowIcon } from "../../../icons/RightTopArrowIcon";
 import { InfoIcon } from "../../../icons/InfoIcon";
 import { InfoSection } from "../ui/InfoSection";
 import { FaucetFormSubmitData } from "../FaucetForm/types";
-import { ReceiveMutation } from "./types";
+import { ReceiveMutation, TxStatusQuery } from "./types";
 import { RunMutationButton } from "../../../ui/RunMutationButton";
 import { KAON_NETWORK } from "../../../../constants";
 import { useKaonNetworkToWallet } from "./useKaonNetworkToWallet";
@@ -24,23 +24,41 @@ type ReceivingStatusProps = {
   txHash: string | null;
   formData: FaucetFormSubmitData;
   receiveMutation: ReceiveMutation;
+  txStatusQuery: TxStatusQuery;
 };
 
 export function ReceivingStatus(props: ReceivingStatusProps) {
-  const { receiveMutation, txHash, formData } = props;
+  const { receiveMutation, txStatusQuery, txHash, formData } = props;
   const { evmAddress } = formData;
   const addNetworkMutation = useKaonNetworkToWallet();
 
+  const errorMessage =
+    (receiveMutation.isError &&
+      (receiveMutation.error?.message || String(receiveMutation.error))) ||
+    (txStatusQuery.isError &&
+      (txStatusQuery.error?.message || String(txStatusQuery.error))) ||
+    (txStatusQuery.data === "FAILED" && "Transaction failed, try again");
+
+  const isLoading =
+    !errorMessage &&
+    (receiveMutation.isIdle ||
+      receiveMutation.isPending ||
+      txStatusQuery.isPending ||
+      txStatusQuery.data === "PENDING");
+
+  const isSuccessful =
+    !errorMessage && !isLoading && txStatusQuery.data === "SUCCESSFUL";
+
   return (
     <Grid container spacing={3} direction="column">
-      {receiveMutation.isError && (
+      {!!errorMessage && (
         <Alert severity="error" icon={<InfoIcon fontSize="inherit" />}>
           {(receiveMutation.error && receiveMutation.error.message) ||
             String(receiveMutation.error)}
         </Alert>
       )}
 
-      {!receiveMutation.isError && (
+      {(isLoading || isSuccessful) && (
         <MuiCard variant="outlined">
           <LoaderGrid
             container
@@ -51,7 +69,9 @@ export function ReceivingStatus(props: ReceivingStatusProps) {
             <KaonLoader />
             <Grid container spacing={1}>
               {txHash && <TxHashButtonBalancer fontSize="inherit" />}
-              <Typography variant="h2">Processing on testnet</Typography>
+              <Typography variant="h2">
+                {isSuccessful ? "Executed on testnet" : "Processing on testnet"}
+              </Typography>
               {txHash && (
                 <TxHashButton
                   component="a"

@@ -1,5 +1,6 @@
 "use server";
 import { redis } from "../utils/redis";
+import { getTxStatus } from "./getTxStatus";
 
 type CanReceive = {
   success: boolean;
@@ -27,7 +28,9 @@ export async function canReceive(evmAddress: string): Promise<CanReceive> {
   if (now >= lastReceiveTimestamp + coolDown)
     return { success: true, message: "🚢" };
 
-  // TODO: add tx receipt checking. User can receive if the last tx failed
+  const txStatus = await getTxStatus(lastReceive.txHash);
+  // if asked for funds after transaction failed
+  if (txStatus === "FAILED") return { success: true, message: "🚢" };
 
   // TODO: use days.js to format left time
   // calculate time left in hours

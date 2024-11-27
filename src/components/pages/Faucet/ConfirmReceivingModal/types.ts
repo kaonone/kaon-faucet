@@ -1,8 +1,14 @@
 "use client";
-import { UseMutationResult } from "@tanstack/react-query";
+import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
+import { TxStatus } from "../../../../api/getTxStatus";
 
 export type ReceiveMutation = UseMutationResult<
-  void, Error, {
+  void,
+  Error,
+  {
     hCaptchaToken: string;
-  }, unknown
+  },
+  unknown
 >;
+
+export type TxStatusQuery = UseQueryResult<TxStatus, Error>;
