@@ -4,7 +4,7 @@ import { verify } from "hcaptcha";
 
 import { canReceive } from "./canReceive";
 import transferCoin from "../utils/transferCoin";
-import redis from "../utils/redis";
+import { redis } from "../utils/redis";
 
 type Message =
   | {
@@ -54,12 +54,12 @@ export async function receiveGas({
   // if transfer was unsuccessful
   if (!transfer.success) return { message: transfer.message, error: true };
 
-  await redis.incr("COUNT");
+  // update stats
+  await redis.incrPayoutsNumber();
+  await redis.incrbyPayoutsTotalAmount(amount);
 
-  await redis.incrby("TOTAL", amount);
-
-  // update the last transfer timestamp to now
-  await redis.set(address.toLowerCase(), Math.floor(Date.now() / 1000));
+  // update the last transfer timestamp and tx hash
+  await redis.updateLastReceive(address, new Date(), transfer.txHash);
 
   // transfer is successful
   return { txHash: transfer.txHash };

@@ -1,7 +1,7 @@
 "use server";
 import { formatEther } from "ethers";
-import redis from "../utils/redis";
-import getBalance from "../utils/getBalance";
+import { redis } from "../utils/redis";
+import getFaucetAvailableBalance from "../utils/getFaucetAvailableBalance";
 
 type Stats = {
   availableBalance: number;
@@ -10,19 +10,10 @@ type Stats = {
 };
 
 export async function getStats(): Promise<Stats> {
-  let payoutsNumber = 0;
-  const count = await redis.get("COUNT");
-  if (count !== null) {
-    payoutsNumber = parseInt(count);
-  }
+  const payoutsNumber = await redis.getPayoutsNumber();
+  const payoutsTotalAmount = await redis.getPayoutsTotalAmount();
 
-  let payoutsTotalAmount = 0;
-  const total = await redis.get("TOTAL");
-  if (total !== null) {
-    payoutsTotalAmount = parseInt(total);
-  }
-
-  const balance = await getBalance();
+  const balance = await getFaucetAvailableBalance();
   const availableBalance = parseInt(formatEther(balance));
 
   return {
