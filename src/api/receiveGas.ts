@@ -54,6 +54,10 @@ export async function receiveGas({
   // if transfer was unsuccessful
   if (!transfer.success) return { message: transfer.message, error: true };
 
+  await redis.incr("COUNT");
+
+  await redis.incrby("TOTAL", amount);
+
   // update the last transfer timestamp to now
   await redis.set(address.toLowerCase(), Math.floor(Date.now() / 1000));
 
