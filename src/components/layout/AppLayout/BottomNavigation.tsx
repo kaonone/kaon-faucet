@@ -2,10 +2,9 @@
 import React from "react";
 import { Grid2 as Grid } from "@mui/material";
 
+import { KAON_NETWORK } from "../../../constants";
 import { makeFaucetPageHref, makeStatsPageHref } from "../../../routes";
 import { TabLink } from "../../ui/TabLink";
-
-const TESTNET_EXPLORER_HREF = "https://explorer.testnet.kaon.one/";
 
 export function BottomNavigation() {
   return (
@@ -18,7 +17,7 @@ export function BottomNavigation() {
     >
       <TabLink href={makeFaucetPageHref()}>Faucet</TabLink>
       <TabLink href={makeStatsPageHref()}>Stats</TabLink>
-      <TabLink external href={TESTNET_EXPLORER_HREF}>
+      <TabLink external href={KAON_NETWORK.blockExplorerUrl}>
         Testnet explorer
       </TabLink>
     </Grid>

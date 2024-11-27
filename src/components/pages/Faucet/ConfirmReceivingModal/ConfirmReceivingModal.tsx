@@ -6,6 +6,7 @@ import { Typography } from "@mui/material";
 
 import { formatNumber } from "../../../../utils/format/formatNumber";
 import { receiveGas } from "../../../../api/receiveGas";
+import { HELP_URL } from "../../../../constants";
 import { FaucetFormSubmitData } from "../FaucetForm/types";
 import { Modal } from "../ui/Modal";
 import { RequestConfirmation } from "./RequestConfirmation";
@@ -45,7 +46,7 @@ export function ConfirmReceivingModal(props: Props) {
   return (
     <Modal
       open
-      helpHref="/#TODO"
+      helpHref={HELP_URL}
       onClose={receiveMutation.isIdle ? onClose : undefined}
       title={
         <Typography variant="h5">
