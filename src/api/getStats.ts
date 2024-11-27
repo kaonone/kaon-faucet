@@ -10,15 +10,15 @@ type Stats = {
 };
 
 export async function getStats(): Promise<Stats> {
-  const payoutsNumber = await redis.getPayoutsNumber();
-  const payoutsTotalAmount = await redis.getPayoutsTotalAmount();
+  const payoutsNumber = await redis.getPayoutsNumber().catch(() => null);
+  const payoutsTotalAmount = await redis.getPayoutsTotalAmount().catch(() => null);
 
-  const balance = await getFaucetAvailableBalance();
-  const availableBalance = parseInt(formatEther(balance));
+  const balance = await getFaucetAvailableBalance().catch(() => null);
+  const availableBalance = parseInt(formatEther(balance ?? 0));
 
   return {
     availableBalance,
-    payoutsNumber,
-    payoutsTotalAmount,
+    payoutsNumber: payoutsNumber ?? 0,
+    payoutsTotalAmount: payoutsTotalAmount ?? 0,
   };
 }
