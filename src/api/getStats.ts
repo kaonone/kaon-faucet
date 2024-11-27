@@ -9,25 +9,21 @@ type Stats = {
   payoutsTotalAmount: number;
 };
 
-// TODO
 export async function getStats(): Promise<Stats> {
   let payoutsNumber = 0;
   const count = await redis.get("COUNT");
-  if (count !== null){ 
+  if (count !== null) {
     payoutsNumber = parseInt(count);
   }
 
   let payoutsTotalAmount = 0;
   const total = await redis.get("TOTAL");
-  if (total !== null){ 
+  if (total !== null) {
     payoutsTotalAmount = parseInt(total);
   }
 
-  let availableBalance = 0;
   const balance = await getBalance();
-  let temp = formatEther(balance.toString());
-  console.log(temp);
-  availableBalance = parseInt(formatEther(availableBalance.toString()));
+  const availableBalance = parseInt(formatEther(balance));
 
   return {
     availableBalance,
