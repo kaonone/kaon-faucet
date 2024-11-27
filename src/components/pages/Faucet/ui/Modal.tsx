@@ -36,7 +36,7 @@ export function Modal(props: ModalProps) {
             >
               {helpHref && (
                 <HelpLinkBox>
-                  <TabLink href="/#" external>
+                  <TabLink href={helpHref} external>
                     Get help
                   </TabLink>
                 </HelpLinkBox>

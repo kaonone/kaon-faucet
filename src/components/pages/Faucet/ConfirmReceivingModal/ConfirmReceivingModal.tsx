@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Typography } from "@mui/material";
 
 import { formatNumber } from "../../../../utils/format/formatNumber";
 import { receiveGas } from "../../../../api/receiveGas";
+import { getTxStatus } from "../../../../api/getTxStatus";
+import { HELP_URL, KAON_NETWORK } from "../../../../constants";
 import { FaucetFormSubmitData } from "../FaucetForm/types";
 import { Modal } from "../ui/Modal";
 import { RequestConfirmation } from "./RequestConfirmation";
@@ -39,14 +41,29 @@ export function ConfirmReceivingModal(props: Props) {
       }
 
       setTxHash(result.txHash);
+      window
+        .open(`${KAON_NETWORK.blockExplorerUrl}/tx/${result.txHash}`, "_blank")
+        ?.focus();
     },
+  });
+
+  const txStatusQuery = useQuery({
+    queryKey: ["txStatus", txHash],
+    queryFn: () => {
+      return getTxStatus(txHash!);
+    },
+    enabled: !!txHash,
   });
 
   return (
     <Modal
       open
-      helpHref="/#TODO"
-      onClose={receiveMutation.isIdle ? onClose : undefined}
+      helpHref={HELP_URL}
+      onClose={
+        receiveMutation.isIdle || receiveMutation.isError || txHash
+          ? onClose
+          : undefined
+      }
       title={
         <Typography variant="h5">
           Receive {formatNumber(amount)} KAON
@@ -62,6 +79,7 @@ export function ConfirmReceivingModal(props: Props) {
         <ReceivingStatus
           txHash={txHash}
           receiveMutation={receiveMutation}
+          txStatusQuery={txStatusQuery}
           formData={formData}
         />
       )}

@@ -5,20 +5,18 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import XIcon from "@mui/icons-material/X";
 import TelegramIcon from "@mui/icons-material/Telegram";
 
+import {
+  DISCORD_URL,
+  DOCS_URL,
+  GITHUB_URL,
+  HIRING_URL,
+  ROADMAP_URL,
+  TELEGRAM_URL,
+  TWITTER_URL,
+} from "../../../constants";
 import { TabLink } from "../../ui/TabLink";
 import { IconLink } from "../../ui/IconLink";
 import { DiscordIcon } from "../../icons/DiscordIcon";
-
-const DOCS_HREF = "https://kaon.gitbook.io/technical";
-const ROADMAP_HREF =
-  "https://kaonone.notion.site/cbe36d62bf8c4981aadd2acb26093ad9?v=a7c3f50e4ce848e1908d8225aad0cb4c&pvs=4";
-const GITHUB_HREF = "https://github.com/kaonone";
-const HIRING_HREF =
-  "https://kaonone.notion.site/Hiring-4a0e2a181cbf40a8a0e56ac4fb4fa678?pvs=4";
-
-const DISCORD_HREF = "https://discord.gg/xGdaBvn";
-const TELEGRAM_HREF = "https://t.me/kaonlabs";
-const TWITTER_HREF = "https://x.com/kaonlabs";
 
 export function TopNavigation() {
   return (
@@ -30,37 +28,37 @@ export function TopNavigation() {
       alignItems="center"
     >
       <Grid container size="auto">
-        <TabLink external href={DOCS_HREF}>
+        <TabLink external href={DOCS_URL}>
           Docs
         </TabLink>
-        <TabLink external href={ROADMAP_HREF}>
+        <TabLink external href={ROADMAP_URL}>
           Roadmap
         </TabLink>
         <TabLink
           external
-          href={GITHUB_HREF}
+          href={GITHUB_URL}
           icon={<GitHubIcon fontSize="inherit" />}
         >
           Github
         </TabLink>
-        <TabLink external href={HIRING_HREF}>
+        <TabLink external href={HIRING_URL}>
           We&apos;re hiring!
         </TabLink>
       </Grid>
       <Grid container size="auto">
         <IconLink
           external
-          href={DISCORD_HREF}
+          href={DISCORD_URL}
           icon={<DiscordIcon fontSize="inherit" />}
         />
         <IconLink
           external
-          href={TELEGRAM_HREF}
+          href={TELEGRAM_URL}
           icon={<TelegramIcon fontSize="inherit" />}
         />
         <IconLink
           external
-          href={TWITTER_HREF}
+          href={TWITTER_URL}
           icon={<XIcon fontSize="inherit" />}
         />
       </Grid>
