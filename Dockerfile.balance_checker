@@ -1,0 +1,27 @@
+# Dockerfile.balance_checker
+
+FROM alpine:latest
+
+# Install necessary packages
+RUN apk add --no-cache bash curl jq bc
+
+# Define build and env arguments
+ARG PRIVATE_KEY
+ENV PRIVATE_KEY=${PRIVATE_KEY}
+ARG KAON_RPC
+ENV KAON_RPC=${KAON_RPC}
+ARG RPC_URL
+ENV RPC_URL=${RPC_URL}
+ARG ETH_ADDRESS
+ENV ETH_ADDRESS=${ETH_ADDRESS}
+ARG KAON_ADDRESS
+ENV KAON_ADDRESS=${KAON_ADDRESS}
+
+# Copy the balance checking script into the container
+COPY refill_faucet_balance.sh /usr/local/bin/refill_faucet_balance.sh
+
+# Make the script executable
+RUN chmod +x /usr/local/bin/refill_faucet_balance.sh
+
+# Set the default command to run the script every hour
+CMD ["bash", "-c", "source /etc/profile.d/balance_checker.sh && while true; do /usr/local/bin/refill_faucet_balance.sh; sleep 3600; done"]
