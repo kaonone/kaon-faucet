@@ -1,14 +1,13 @@
 "use client";
 import {
+  Alert as MuiAlert,
   Button,
   ButtonProps,
   CircularProgress,
+  styled,
   SvgIcon,
-  Tooltip,
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-
 import { UseMutationResult } from "@tanstack/react-query";
 
 type RunMutationProps<
@@ -35,39 +34,39 @@ export function RunMutationButton<
   buttonProps = {},
 }: RunMutationProps<TData, TError, TVariables, TContext>) {
   return (
-    <Button
-      {...buttonProps}
-      disabled={mutation.isPending || buttonProps.disabled}
-      onClick={(event) => {
-        mutation.mutate(variables);
-        buttonProps.onClick && buttonProps.onClick(event);
-      }}
-      startIcon={
-        mutation.isIdle || mutation.isPaused ? null : (
-          <SvgIcon fontSize="inherit" />
-        )
-      }
-      endIcon={
-        mutation.isIdle || mutation.isPaused ? null : (
-          <>
-            {mutation.isPending && <CircularProgress size="1em" />}
-            {!mutation.isPending && mutation.isSuccess && (
-              <CheckIcon fontSize="inherit" />
-            )}
-            {!mutation.isPending && mutation.isError && (
-              <Tooltip
-                title={
-                  (mutation.error as Error)?.message || String(mutation.error)
-                }
-              >
-                <ErrorOutlineIcon fontSize="inherit" />
-              </Tooltip>
-            )}
-          </>
-        )
-      }
-    >
-      {children}
-    </Button>
+    <>
+      <Button
+        {...buttonProps}
+        disabled={mutation.isPending || buttonProps.disabled}
+        onClick={(event) => {
+          mutation.mutate(variables);
+          buttonProps.onClick && buttonProps.onClick(event);
+        }}
+        startIcon={
+          (mutation.isPending || mutation.isSuccess) && (
+            <SvgIcon fontSize="inherit" />
+          )
+        }
+        endIcon={
+          (mutation.isPending || mutation.isSuccess) &&
+          (mutation.isPending ? (
+            <CircularProgress size="1em" />
+          ) : (
+            <CheckIcon fontSize="inherit" />
+          ))
+        }
+      >
+        {children}
+      </Button>
+      {!mutation.isPending && mutation.isError && (
+        <Alert severity="error">
+          {(mutation.error as any)?.message || String(mutation.error)}
+        </Alert>
+      )}
+    </>
   );
 }
+
+const Alert = styled(MuiAlert)({
+  marginTop: 8,
+});

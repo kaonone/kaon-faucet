@@ -1,12 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Typography } from "@mui/material";
 
 import { formatNumber } from "../../../../utils/format/formatNumber";
 import { receiveGas } from "../../../../api/receiveGas";
-import { getTxStatus } from "../../../../api/getTxStatus";
 import { HELP_URL, KAON_NETWORK } from "../../../../constants";
 import { FaucetFormSubmitData } from "../FaucetForm/types";
 import { Modal } from "../ui/Modal";
@@ -14,15 +12,15 @@ import { RequestConfirmation } from "./RequestConfirmation";
 import { ReceivingStatus } from "./ReceivingStatus";
 
 type Props = {
+  txHash: string | null;
   formData: FaucetFormSubmitData;
   onClose: () => void;
+  onTxHash: (txHash: string) => void;
 };
 
 export function ConfirmReceivingModal(props: Props) {
-  const { formData, onClose } = props;
+  const { formData, txHash, onClose, onTxHash } = props;
   const { amount, evmAddress } = formData;
-
-  const [txHash, setTxHash] = useState<string | null>(null);
 
   const receiveMutation = useMutation({
     mutationFn: async ({ hCaptchaToken }: { hCaptchaToken: string }) => {
@@ -40,19 +38,11 @@ export function ConfirmReceivingModal(props: Props) {
         throw new Error(result.message);
       }
 
-      setTxHash(result.txHash);
+      onTxHash(result.txHash);
       window
         .open(`${KAON_NETWORK.blockExplorerUrl}/tx/${result.txHash}`, "_blank")
         ?.focus();
     },
-  });
-
-  const txStatusQuery = useQuery({
-    queryKey: ["txStatus", txHash],
-    queryFn: () => {
-      return getTxStatus(txHash!);
-    },
-    enabled: !!txHash,
   });
 
   return (
@@ -70,18 +60,13 @@ export function ConfirmReceivingModal(props: Props) {
         </Typography>
       }
     >
-      {receiveMutation.isIdle ? (
+      {!txHash ? (
         <RequestConfirmation
           receiveMutation={receiveMutation}
           formData={formData}
         />
       ) : (
-        <ReceivingStatus
-          txHash={txHash}
-          receiveMutation={receiveMutation}
-          txStatusQuery={txStatusQuery}
-          formData={formData}
-        />
+        <ReceivingStatus txHash={txHash} formData={formData} />
       )}
     </Modal>
   );

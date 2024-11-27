@@ -9,42 +9,45 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 
+import { getTxStatus } from "../../../../api/getTxStatus";
+import { KAON_NETWORK } from "../../../../constants";
 import { KaonLoader } from "../../../ui/KaonLoader";
+import { RunMutationButton } from "../../../ui/RunMutationButton";
 import { RightTopArrowIcon } from "../../../icons/RightTopArrowIcon";
 import { InfoIcon } from "../../../icons/InfoIcon";
 import { InfoSection } from "../ui/InfoSection";
 import { FaucetFormSubmitData } from "../FaucetForm/types";
-import { ReceiveMutation, TxStatusQuery } from "./types";
-import { RunMutationButton } from "../../../ui/RunMutationButton";
-import { KAON_NETWORK } from "../../../../constants";
 import { useKaonNetworkToWallet } from "./useKaonNetworkToWallet";
 
 type ReceivingStatusProps = {
   txHash: string | null;
   formData: FaucetFormSubmitData;
-  receiveMutation: ReceiveMutation;
-  txStatusQuery: TxStatusQuery;
 };
 
 export function ReceivingStatus(props: ReceivingStatusProps) {
-  const { receiveMutation, txStatusQuery, txHash, formData } = props;
+  const { txHash, formData } = props;
   const { evmAddress } = formData;
   const addNetworkMutation = useKaonNetworkToWallet();
 
+  const txStatusQuery = useQuery({
+    queryKey: ["txStatus", txHash],
+    queryFn: () => {
+      return getTxStatus(txHash!);
+    },
+    enabled: !!txHash,
+    refetchInterval: 5_000,
+  });
+
   const errorMessage =
-    (receiveMutation.isError &&
-      (receiveMutation.error?.message || String(receiveMutation.error))) ||
     (txStatusQuery.isError &&
       (txStatusQuery.error?.message || String(txStatusQuery.error))) ||
     (txStatusQuery.data === "FAILED" && "Transaction failed, try again");
 
   const isLoading =
     !errorMessage &&
-    (receiveMutation.isIdle ||
-      receiveMutation.isPending ||
-      txStatusQuery.isPending ||
-      txStatusQuery.data === "PENDING");
+    (txStatusQuery.isPending || txStatusQuery.data === "PENDING");
 
   const isSuccessful =
     !errorMessage && !isLoading && txStatusQuery.data === "SUCCESSFUL";
@@ -53,8 +56,7 @@ export function ReceivingStatus(props: ReceivingStatusProps) {
     <Grid container spacing={3} direction="column">
       {!!errorMessage && (
         <Alert severity="error" icon={<InfoIcon fontSize="inherit" />}>
-          {(receiveMutation.error && receiveMutation.error.message) ||
-            String(receiveMutation.error)}
+          {errorMessage}
         </Alert>
       )}
 
@@ -122,16 +124,18 @@ export function ReceivingStatus(props: ReceivingStatusProps) {
         }
       />
 
-      <RunMutationButton
-        mutation={addNetworkMutation}
-        variables={undefined}
-        buttonProps={{
-          fullWidth: true,
-          variant: "contained",
-        }}
-      >
-        Add Kaon testnet on Metamask
-      </RunMutationButton>
+      <div>
+        <RunMutationButton
+          mutation={addNetworkMutation}
+          variables={undefined}
+          buttonProps={{
+            fullWidth: true,
+            variant: "contained",
+          }}
+        >
+          Add Kaon testnet on Metamask
+        </RunMutationButton>
+      </div>
     </Grid>
   );
 }
