@@ -8,7 +8,7 @@ export default function manifest(): MetadataRoute.Manifest {
         display: "standalone",
         theme_color: "#ffffff",
         background_color: "#ffffff",
-        description: "Kaon is a Bitcoin and UTXO native blockchain with cross-chain composability. Our mission is to create a stronger fidelity of on-chain transfers of Bitcoin assets. The result is a decentralized consensus layer that not only offers the first cryptographically secure mirrored BTC, but is also bridge-less and oracle-less to make Bitcoin ecosystem interoperability secure, composable and scalable.",
+        description: "Official Kaon Testnet Faucet: Obtain test tokens by entering your MetaMask wallet address and specifying the desired amount. The interface also displays your Kaon UTXO format address corresponding to your Ethereum address, helping you seamlessly test and explore the Kaon network.",
         icons: [
             {
                 "src": "icons/android-chrome-36x36.png",
