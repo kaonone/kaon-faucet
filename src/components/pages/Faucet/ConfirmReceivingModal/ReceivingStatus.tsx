@@ -19,7 +19,7 @@ import { RightTopArrowIcon } from "../../../icons/RightTopArrowIcon";
 import { InfoIcon } from "../../../icons/InfoIcon";
 import { InfoSection } from "../ui/InfoSection";
 import { FaucetFormSubmitData } from "../FaucetForm/types";
-import { useKaonNetworkToWallet } from "./useKaonNetworkToWallet";
+import { useAddKaonNetworkToWallet } from "../../../../utils/injectedWallet";
 
 type ReceivingStatusProps = {
   txHash: string | null;
@@ -29,7 +29,7 @@ type ReceivingStatusProps = {
 export function ReceivingStatus(props: ReceivingStatusProps) {
   const { txHash, formData } = props;
   const { evmAddress } = formData;
-  const addNetworkMutation = useKaonNetworkToWallet();
+  const addNetworkMutation = useAddKaonNetworkToWallet();
 
   const txStatusQuery = useQuery({
     queryKey: ["txStatus", txHash],
@@ -77,8 +77,9 @@ export function ReceivingStatus(props: ReceivingStatusProps) {
               {txHash && (
                 <TxHashButton
                   component="a"
-                  href={`${KAON_NETWORK.blockExplorerUrl}/tx/${txHash}`}
                   size="small"
+                  href={`${KAON_NETWORK.blockExplorerUrl}/tx/${txHash}`}
+                  target="_blank"
                 >
                   <RightTopArrowIcon fontSize="inherit" />
                 </TxHashButton>

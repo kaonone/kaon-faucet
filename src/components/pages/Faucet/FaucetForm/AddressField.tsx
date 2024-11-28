@@ -10,10 +10,10 @@ import {
 } from "@mui/material";
 import { FieldApi } from "@tanstack/react-form";
 
+import { useConnectedAccount } from "../../../../utils/injectedWallet";
 import { InfoIcon } from "../../../icons/InfoIcon";
 import { Card } from "../ui/FaucetCard";
 import { AddressInfoModal } from "./AddressInfoModal";
-
 import type { FormData } from "./FaucetForm";
 
 type AddressFieldProps = {
@@ -88,6 +88,15 @@ export function AddressField(props: AddressFieldProps) {
           onChange={(event) =>
             field.handleChange({ type, value: event.target.value })
           }
+          endAdornment={
+            type === "evm" && (
+              <SetConnectedAccountButton
+                onClick={(address) =>
+                  field.handleChange({ type, value: address })
+                }
+              />
+            )
+          }
         />
       </Card>
 
@@ -101,6 +110,21 @@ export function AddressField(props: AddressFieldProps) {
   );
 }
 
+function SetConnectedAccountButton({
+  onClick,
+}: {
+  onClick(address: string): void;
+}) {
+  const connectedQuery = useConnectedAccount();
+  const address = connectedQuery.data?.address;
+
+  return address ? (
+    <SetAddressButton variant="outlined" onClick={() => onClick(address)}>
+      To {address.slice(0, 6)}...
+    </SetAddressButton>
+  ) : null;
+}
+
 const InfoIconButton = styled(IconButton)({
   fontSize: 16,
 });
@@ -108,6 +132,13 @@ const InfoIconButton = styled(IconButton)({
 const ChangeTypeButton = styled(Button)({
   marginRight: -8,
   color: "rgb(153, 143, 135)",
+});
+
+const SetAddressButton = styled(Button)({
+  whiteSpace: "nowrap",
+  textTransform: "none",
+  padding: "0px 18px",
+  marginLeft: 8,
 });
 
 const AddressInput = styled(Input)({
