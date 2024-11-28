@@ -1,14 +1,9 @@
 "use client";
 import { useState } from "react";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import {
-  Button,
-  Grid2 as Grid,
-  NoSsr,
-  Typography,
-  styled,
-} from "@mui/material";
+import { Grid2 as Grid, NoSsr, Typography, styled } from "@mui/material";
 
+import { RunMutationButton } from "../../../ui/RunMutationButton";
 import { Card } from "../ui/FaucetCard";
 import { InfoSection } from "../ui/InfoSection";
 import { FaucetFormSubmitData } from "../FaucetForm/types";
@@ -63,16 +58,19 @@ export function RequestConfirmation(props: RequestConfirmationProps) {
         </HCaptchaBox>
       </NoSsr>
 
-      <Button
-        fullWidth
-        variant="contained"
-        disabled={!hCaptchaToken}
-        onClick={() =>
-          receiveMutation.mutate({ hCaptchaToken: hCaptchaToken! })
-        }
-      >
-        Confirm
-      </Button>
+      <div>
+        <RunMutationButton
+          mutation={receiveMutation}
+          variables={{ hCaptchaToken: hCaptchaToken! }}
+          buttonProps={{
+            fullWidth: true,
+            variant: "contained",
+            disabled: !hCaptchaToken,
+          }}
+        >
+          Confirm
+        </RunMutationButton>
+      </div>
     </Grid>
   );
 }

@@ -1,6 +1,5 @@
 "use client";
-import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
-import { TxStatus } from "../../../../api/getTxStatus";
+import { UseMutationResult } from "@tanstack/react-query";
 
 export type ReceiveMutation = UseMutationResult<
   void,
@@ -10,5 +9,3 @@ export type ReceiveMutation = UseMutationResult<
   },
   unknown
 >;
-
-export type TxStatusQuery = UseQueryResult<TxStatus, Error>;
