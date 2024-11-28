@@ -1,16 +1,9 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
-import { Eip1193Provider } from "ethers";
 
-import { KAON_NETWORK } from "../../../../constants";
+import { KAON_NETWORK } from "../../constants";
 
-declare global {
-  interface Window {
-    ethereum?: Eip1193Provider;
-  }
-}
-
-export function useKaonNetworkToWallet() {
+export function useAddKaonNetworkToWallet() {
   return useMutation({ mutationFn: addKaonNetworkToWallet });
 }
 
