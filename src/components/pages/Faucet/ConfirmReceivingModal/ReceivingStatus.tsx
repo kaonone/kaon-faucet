@@ -75,8 +75,9 @@ export function ReceivingStatus(props: ReceivingStatusProps) {
               {txHash && (
                 <TxHashButton
                   component="a"
-                  href={`${KAON_NETWORK.blockExplorerUrl}/tx/${txHash}`}
                   size="small"
+                  href={`${KAON_NETWORK.blockExplorerUrl}/tx/${txHash}`}
+                  target="_blank"
                 >
                   <RightTopArrowIcon fontSize="inherit" />
                 </TxHashButton>

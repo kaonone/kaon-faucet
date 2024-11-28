@@ -10,6 +10,8 @@ export function useConnectedAccount() {
     queryFn: () => connectWallet(),
     queryKey: ["wallet:account"],
     enabled: mounted,
+    retry: false,
+    refetchOnWindowFocus: false,
   });
 }
 
