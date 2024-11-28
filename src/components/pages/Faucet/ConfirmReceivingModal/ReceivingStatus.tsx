@@ -18,7 +18,7 @@ import { FaucetFormSubmitData } from "../FaucetForm/types";
 import { ReceiveMutation, TxStatusQuery } from "./types";
 import { RunMutationButton } from "../../../ui/RunMutationButton";
 import { KAON_NETWORK } from "../../../../constants";
-import { useKaonNetworkToWallet } from "./useKaonNetworkToWallet";
+import { useAddKaonNetworkToWallet } from "../../../../utils/injectedWallet";
 
 type ReceivingStatusProps = {
   txHash: string | null;
@@ -30,7 +30,7 @@ type ReceivingStatusProps = {
 export function ReceivingStatus(props: ReceivingStatusProps) {
   const { receiveMutation, txStatusQuery, txHash, formData } = props;
   const { evmAddress } = formData;
-  const addNetworkMutation = useKaonNetworkToWallet();
+  const addNetworkMutation = useAddKaonNetworkToWallet();
 
   const errorMessage =
     (receiveMutation.isError &&
@@ -75,8 +75,9 @@ export function ReceivingStatus(props: ReceivingStatusProps) {
               {txHash && (
                 <TxHashButton
                   component="a"
-                  href={`${KAON_NETWORK.blockExplorerUrl}/tx/${txHash}`}
                   size="small"
+                  href={`${KAON_NETWORK.blockExplorerUrl}/tx/${txHash}`}
+                  target="_blank"
                 >
                   <RightTopArrowIcon fontSize="inherit" />
                 </TxHashButton>
