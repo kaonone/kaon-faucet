@@ -38,7 +38,7 @@ export function RequestConfirmation(props: RequestConfirmationProps) {
 
       <InfoSection
         content={[
-          "Kaon supports addresses in Bitcoin format and in EVM format. Addresses above representing the same account.",
+          "Kaon supports addresses in Bitcoin format and in EVM format. Addresses above represents the same account.",
         ]}
       />
 
