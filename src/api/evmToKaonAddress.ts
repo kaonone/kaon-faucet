@@ -1,7 +1,7 @@
 "use server";
 
 import { isAddress } from "ethers";
-import { provider } from "../utils/wallet";
+import { getProviderErrorMsg, provider } from "../utils/wallet";
 
 type Result =
   | {
@@ -22,19 +22,16 @@ export async function evmToKaonAddress({
     return { error: true, message: "Invalid ETH wallet address" };
   }
 
-  // return { kaonAddress: "aws5EADN6j7sszZYjWBAZDThW1qpK1TH13" };
-
   try {
-    const kaonAddress = await provider.send("kaon_fromhexaddress", [evmAddress]);
+    const kaonAddress = await provider.send("kaon_fromhexaddress", [
+      evmAddress,
+    ]);
 
     return { kaonAddress };
   } catch (error) {
     return {
       error: true,
-      message:
-        (error as any)?.info?.error?.message ||
-        (error as any)?.message ||
-        String(error),
+      message: getProviderErrorMsg(error),
     };
   }
 }
