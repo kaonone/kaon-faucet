@@ -38,7 +38,7 @@ export function RequestConfirmation(props: RequestConfirmationProps) {
 
       <InfoSection
         content={[
-          "Copy such as: When using the Faucet a Kaon testnet address will be generated linked to your ETH Wallet address. Tokens will be sent to both? and you can access them through an EVM wallet such as metamask using your ETH address.",
+          "Kaon supports addresses in Bitcoin format and in EVM format. Addresses above representing the same account.",
         ]}
       />
 
