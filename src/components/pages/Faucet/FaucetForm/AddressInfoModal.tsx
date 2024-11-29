@@ -17,24 +17,24 @@ export function AddressInfoModal({
     <Modal open={open} title={<GreyInfoIcon />} onClose={onClose}>
       <Grid container spacing={3} direction="column">
         <InfoSection
-          title="Ethereum Wallet Address or Native Kaon Wallet Address"
+          title="Kaon Testnet Supports Both, EVM-Compatible Ethereum Wallets and the Native Kaon Wallet"
           content={[
-            "You can send testnet tokens to either an Ethereum wallet address or a native Kaon wallet address.",
-            "Further copy explaining what happens when you send tokens to either including details and education such as:",
-            "”It’s good for positioning, because we aren’t Ethereum-fork, not even close, we just support its features”",
+            "You can send testnet tokens to either an ERC-20 wallet address or a native Kaon wallet address.",
           ]}
         />
 
         <InfoSection
-          title="Kaon Chain Payments"
+          title="Sending to an Ethereum Wallet Address"
           content={[
-            "Copy such as: When using the Faucet a Kaon testnet address will be generated linked to your ETH Wallet address. Tokens will be sent to this address and you can access them through an EVM wallet such as metamask using your ETH address.",
+            "On the Kaon blockchain, an EVM address can be represented as a Bitcoin invoice address for P2PKH. Test tokens will be accessible through any EVM-compatible wallet (eg. MetaMask) using the same Ethereum address.",
           ]}
         />
 
         <InfoSection
-          title="Payment Batches"
-          content={["Payments are made in 3 minute batches as a cron task."]}
+          title="Sending to a Native Kaon Wallet Address"
+          content={[
+            "Using the native Kaon wallet allows for direct interaction with the Kaon blockchain, enabling access to all of its unique functionalities.",
+          ]}
         />
       </Grid>
     </Modal>
