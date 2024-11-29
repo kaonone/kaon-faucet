@@ -1,6 +1,6 @@
 "use server";
 
-import { provider } from "../utils/wallet";
+import { getProviderErrorMsg, provider } from "../utils/wallet";
 
 type Result =
   | {
@@ -17,10 +17,6 @@ type Params = { kaonAddress: string };
 export async function kaonToEvmAddress({
   kaonAddress,
 }: Params): Promise<Result> {
-  // return { evmAddress: "0x5Cefde75A7Df3c6Da72c25587ECE41553506743B" };
-
-  // TODO: maybe need to add address format validation
-
   try {
     const evmAddress = await provider.send("kaon_gethexaddress", [kaonAddress]);
 
@@ -28,10 +24,7 @@ export async function kaonToEvmAddress({
   } catch (error) {
     return {
       error: true,
-      message:
-        (error as any)?.info?.error?.message ||
-        (error as any)?.message ||
-        String(error),
+      message: getProviderErrorMsg(error),
     };
   }
 }
