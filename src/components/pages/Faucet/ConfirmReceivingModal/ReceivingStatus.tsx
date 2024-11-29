@@ -1,25 +1,25 @@
 "use client";
 import {
   Button,
-  Alert as MuiAlert,
   Grid2 as Grid,
-  IconButton,
   Card as MuiCard,
-  SvgIcon,
   Typography,
   styled,
+  Link,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 import { getTxStatus } from "../../../../api/getTxStatus";
 import { KAON_NETWORK } from "../../../../constants";
+import { useAddKaonNetworkToWallet } from "../../../../utils/injectedWallet";
 import { KaonLoader } from "../../../ui/KaonLoader";
 import { RunMutationButton } from "../../../ui/RunMutationButton";
 import { RightTopArrowIcon } from "../../../icons/RightTopArrowIcon";
-import { InfoIcon } from "../../../icons/InfoIcon";
+import { FailedTxIcon } from "../../../icons/FailedTxIcon";
+import { ExecutedTxIcon } from "../../../icons/ExecutedTxIcon";
 import { InfoSection } from "../ui/InfoSection";
 import { FaucetFormSubmitData } from "../FaucetForm/types";
-import { useAddKaonNetworkToWallet } from "../../../../utils/injectedWallet";
 
 type ReceivingStatusProps = {
   txHash: string | null;
@@ -28,6 +28,7 @@ type ReceivingStatusProps = {
 
 export function ReceivingStatus(props: ReceivingStatusProps) {
   const { txHash, formData } = props;
+  const [txHashDelayed, setTxHashDelayed] = useState<string | null>(null);
   const { evmAddress } = formData;
   const addNetworkMutation = useAddKaonNetworkToWallet();
 
@@ -40,54 +41,56 @@ export function ReceivingStatus(props: ReceivingStatusProps) {
     refetchInterval: 5_000,
   });
 
-  const errorMessage =
-    (txStatusQuery.isError &&
-      (txStatusQuery.error?.message || String(txStatusQuery.error))) ||
-    (txStatusQuery.data === "FAILED" && "Transaction failed, try again");
+  useEffect(() => {
+    if (txHash) {
+      const timeoutId = window.setTimeout(
+        () => setTxHashDelayed(txHash),
+        60 * 1000
+      );
+      return () => window.clearTimeout(timeoutId);
+    }
+  }, [txHash]);
 
-  const isLoading =
-    !errorMessage &&
-    (txStatusQuery.isPending || txStatusQuery.data === "PENDING");
+  const status = txStatusQuery.data || "PENDING";
+  const isError = status === "FAILED";
+  const isSuccessful = status === "SUCCESSFUL";
+  const isLoading = status === "PENDING";
 
-  const isSuccessful =
-    !errorMessage && !isLoading && txStatusQuery.data === "SUCCESSFUL";
+  const txHashToDisplay = isError || isSuccessful ? txHash : txHashDelayed;
 
   return (
     <Grid container spacing={3} direction="column">
-      {!!errorMessage && (
-        <Alert severity="error" icon={<InfoIcon fontSize="inherit" />}>
-          {errorMessage}
-        </Alert>
-      )}
+      <MuiCard variant="outlined">
+        <StatusGrid
+          container
+          spacing={3}
+          direction="column"
+          alignItems="center"
+        >
+          {isLoading && <KaonLoader />}
+          {isSuccessful && <ExecutedTxIcon fontSize="inherit" />}
+          {isError && <FailedTxIcon fontSize="inherit" />}
 
-      {(isLoading || isSuccessful) && (
-        <MuiCard variant="outlined">
-          <LoaderGrid
-            container
-            spacing={3}
-            direction="column"
-            alignItems="center"
-          >
-            <KaonLoader />
-            <Grid container spacing={1}>
-              {txHash && <TxHashButtonBalancer fontSize="inherit" />}
-              <Typography variant="h2">
-                {isSuccessful ? "Executed on testnet" : "Processing on testnet"}
-              </Typography>
-              {txHash && (
-                <TxHashButton
-                  component="a"
-                  size="small"
-                  href={`${KAON_NETWORK.blockExplorerUrl}/tx/${txHash}`}
+          <Grid container spacing={0} direction="column" alignItems="center">
+            <Typography variant="h2">
+              {isLoading && "Pending the transaction to be accepted"}
+              {isSuccessful && "Transaction executed"}
+              {isError && "Transaction failed, try again"}
+            </Typography>
+            {txHashToDisplay && (
+              <TxHashTypography variant="body1">
+                The transaction hash is{" "}
+                <Link
+                  href={`${KAON_NETWORK.blockExplorerUrl}/tx/${txHashToDisplay}`}
                   target="_blank"
                 >
-                  <RightTopArrowIcon fontSize="inherit" />
-                </TxHashButton>
-              )}
-            </Grid>
-          </LoaderGrid>
-        </MuiCard>
-      )}
+                  {txHashToDisplay.slice(0, 6)}...{txHashToDisplay.slice(-4)}
+                </Link>
+              </TxHashTypography>
+            )}
+          </Grid>
+        </StatusGrid>
+      </MuiCard>
 
       <InfoSection
         content={["This can take anywhere between 1 and 10 minutes."]}
@@ -141,22 +144,15 @@ export function ReceivingStatus(props: ReceivingStatusProps) {
   );
 }
 
-const TxHashButton = styled(IconButton<"a">)({
-  padding: 4,
-});
-
-const TxHashButtonBalancer = styled(SvgIcon)({
-  fontSize: 26,
-});
-
-const LoaderGrid = styled(Grid)({
+const StatusGrid = styled(Grid)({
   fontSize: 60,
   margin: 42,
 });
 
-const Alert = styled(MuiAlert)(({ theme }) => ({
-  marginTop: 8,
-  "& .MuiAlert-message": {
-    ...theme.typography.body1,
+const TxHashTypography = styled(Typography)({
+  color: "rgb(102, 101, 101)",
+
+  "& a": {
+    color: "rgb(102, 101, 101)",
   },
-}));
+});

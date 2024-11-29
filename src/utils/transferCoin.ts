@@ -29,9 +29,10 @@ export default async function transferCoin(
       txHash: transaction.hash,
     };
   } catch (error) {
+    console.warn("transferCoin failed", error);
     return {
       success: false,
-      message: "Unable to Send Transaction",
+      message: "The node is temporarily unavailable. Please try again soon",
     };
   }
 }

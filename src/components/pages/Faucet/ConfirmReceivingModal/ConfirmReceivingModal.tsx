@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 
 import { formatNumber } from "../../../../utils/format/formatNumber";
 import { receiveGas } from "../../../../api/receiveGas";
-import { HELP_URL, KAON_NETWORK } from "../../../../constants";
+import { HELP_URL } from "../../../../constants";
 import { FaucetFormSubmitData } from "../FaucetForm/types";
 import { Modal } from "../ui/Modal";
 import { RequestConfirmation } from "./RequestConfirmation";
@@ -39,9 +39,6 @@ export function ConfirmReceivingModal(props: Props) {
       }
 
       onTxHash(result.txHash);
-      window
-        .open(`${KAON_NETWORK.blockExplorerUrl}/tx/${result.txHash}`, "_blank")
-        ?.focus();
     },
   });
 
