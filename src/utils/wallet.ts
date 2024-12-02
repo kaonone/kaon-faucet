@@ -13,6 +13,10 @@ export function getProviderErrorMsg(error: unknown): string {
     return "The node is temporarily unavailable. Please try again soon";
   }
 
+  if (msg.includes("eth_sendRawTransaction") && msg.includes("verify error")) {
+    return "There are temporarily problems with the faucet account. Please try again soon";
+  }
+
   return msg;
 }
 
