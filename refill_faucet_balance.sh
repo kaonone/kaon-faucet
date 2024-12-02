@@ -10,14 +10,13 @@ KAON_RPC_NO_PROTOCOL=$(echo "$KAON_RPC" | sed -e's,^\(.*://\),,g')
 KAON_RPC_AUTH=$(echo "$KAON_RPC_NO_PROTOCOL" | cut -d@ -f1)
 KAON_RPC_HOST_PORT=$(echo "$KAON_RPC_NO_PROTOCOL" | cut -d@ -f2)
 KAON_RPC_URL="$KAON_RPC_PROTOCOL$KAON_RPC_HOST_PORT"
-
 if [ -z "$KAON_RPC_AUTH" ] || [ -z "$KAON_RPC_URL" ]; then
   echo "Error: Unable to parse KAON_RPC."
   exit 1
 fi
 
 # Threshold in tokens (as a decimal number)
-THRESHOLD=10000
+THRESHOLD=100000
 
 # Amount to send in tokens
 AMOUNT_TO_SEND=10000
@@ -94,23 +93,21 @@ if (( BALANCE_TOKENS < THRESHOLD )); then
 
   echo "Sending $AMOUNT_TO_SEND tokens (which is $AMOUNT_TO_SEND KAON units) to $KAON_ADDRESS"
 
-    # Prepare JSON-RPC data for send transaction
+  # Prepare JSON-RPC data for send transaction
   TX_DATA=$(cat <<EOF
 {
-  "jsonrpc": "1.0",
-  "method": "sendtoaddress",
-  "id": "100",
-  "params": [
-    "$KAON_ADDRESS", $AMOUNT_TO_SEND
-  ]
+  "jsonrpc":"1.0",
+  "method":"sendtoaddress",
+  "params":["$KAON_ADDRESS", $AMOUNT_TO_SEND],
+  "id":1
 }
 EOF
 )
 
   echo "sendtoaddress request TX_DATA: $TX_DATA"
-
+  
   # Send the transaction using curl RPC call
-  TX_RESPONSE=$(curl -s --user "$KAON_RPC_AUTH" -H "content-type:text/plain;" -d "$TX_DATA" "$KAON_RPC_URL")
+  TX_RESPONSE=$(curl -s -X POST --user "$KAON_RPC_AUTH" -H "Content-Type: application/json" --data "$TX_DATA" "$KAON_RPC_URL")
 
   echo "sendtoaddress response TX_RESPONSE: $TX_RESPONSE"
 
