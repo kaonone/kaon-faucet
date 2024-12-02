@@ -1,3 +1,6 @@
+export const MIN_TO_RECEIVE = 1;
+export const MAX_TO_RECEIVE = 1000;
+
 export const KAON_NETWORK = {
   id: 11989,
   name: "Testnet KAON",
