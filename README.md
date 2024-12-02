@@ -40,7 +40,9 @@ HCAPTCHA_SECRET: Create hCpatcha account. Also known as `Secret Key` <https://da
 REDIS_URL: Redis is an in-memory key-value database. <https://redis.com/redis-enterprise-cloud/overview/>
 
 Refill script parameters:
+
 KAON_RPC: Native Node RPC url, typically private
+
 ETH_ADDRESS and KAON_ADDRESS related to PRIVATE_KEY
 
 ## Getting Started Locally
