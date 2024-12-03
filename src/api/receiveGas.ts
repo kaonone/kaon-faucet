@@ -5,6 +5,7 @@ import { verify } from "hcaptcha";
 import { canReceive } from "./canReceive";
 import transferCoin from "../utils/transferCoin";
 import { redis } from "../utils/redis";
+import { MAX_TO_RECEIVE, MIN_TO_RECEIVE } from "../constants";
 
 type Message =
   | {
@@ -35,6 +36,18 @@ export async function receiveGas({
 }: Params): Promise<Message> {
   // if invalid address
   if (!isAddress(address)) return { message: "Invalid Address", error: true };
+
+  // if invalid amount
+  if (amount < MIN_TO_RECEIVE)
+    return {
+      message: `Invalid amount. Should be more than ${MIN_TO_RECEIVE}`,
+      error: true,
+    };
+  if (amount > MAX_TO_RECEIVE)
+    return {
+      message: `Invalid amount. Should be less than ${MIN_TO_RECEIVE}`,
+      error: true,
+    };
 
   // verify the captcha
   const verified = await verify(

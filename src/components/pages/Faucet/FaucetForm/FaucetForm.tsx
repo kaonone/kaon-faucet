@@ -12,6 +12,7 @@ import { useForm } from "@tanstack/react-form";
 import { canReceive } from "../../../../api/canReceive";
 import { evmToKaonAddress } from "../../../../api/evmToKaonAddress";
 import { kaonToEvmAddress } from "../../../../api/kaonToEvmAddress";
+import { MAX_TO_RECEIVE, MIN_TO_RECEIVE } from "../../../../constants";
 import { KaonSlider } from "../../../ui/KaonSlider";
 import { InfoIcon } from "../../../icons/InfoIcon";
 import { AddressField } from "./AddressField";
@@ -26,8 +27,8 @@ export type FormData = {
 };
 
 const SLIDER_STEP = 1;
-const SLIDER_MIN = 1;
-const SLIDER_MAX = 1000;
+const SLIDER_MIN = MIN_TO_RECEIVE;
+const SLIDER_MAX = MAX_TO_RECEIVE;
 
 export function FaucetForm({
   onSubmit,
